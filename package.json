@@ -1,0 +1,24 @@
+{
+  "name": "technoke-utils",
+  "version": "1.0.0",
+  "description": "Utility functions for Technoke serverless deployments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/aspickard/technoke-npm-utils.git"
+  },
+  "keywords": [
+    "serverless",
+    "formatters",
+    "rest"
+  ],
+  "author": "Adam Spickard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aspickard/technoke-npm-utils/issues"
+  },
+  "homepage": "https://github.com/aspickard/technoke-npm-utils#readme"
+}
