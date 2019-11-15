@@ -93,7 +93,7 @@ const formatHeaders = (token) => {
 
 const decodeToken = async (token, secret) => {
   return new Promise((resolve, reject) => {
-    token = token.substring("Bearer ".length + 1)
+    token = token.substring("Bearer: ".length)
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log(err)
