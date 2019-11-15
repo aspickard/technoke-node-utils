@@ -42,7 +42,7 @@ const errorResponse = (statusCode, data) => {
   return corsResponse(statusCode || 500, data)
 }
 
-const optionsResponse = (statusCode, data) => {
+const optionsResponse = () => {
   let resp = {
     statusCode: 200,
     headers: {
