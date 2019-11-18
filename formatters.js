@@ -107,7 +107,7 @@ const decodeToken = async (token, secret) => {
   })
 }
 
-export {
+module.exports = {
   successResponse, unauthorizedResponse, errorResponse, corsResponse,
   optionsResponse, response, parseRequest, returnResponse, formatHeaders,
   decodeToken
