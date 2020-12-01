@@ -56,21 +56,64 @@ const optionsResponse = () => {
 }
 
 const parseRequest = async (req) => {
+  if(req.headers['content-type'].indexOf('multipart/form-data') > -1) {
+    req.setEncoding('latin1')
+  }
   return new Promise((resolve, reject) => {
     try {
       let body = ''
       req.on('data', chunk => {
-        body += chunk.toString(); // convert Buffer to string
+        body += chunk
       })
       req.on('end', async () => {
-        let data = JSON.parse(body)
-        resolve(data)
+        if(req.headers['content-type'].indexOf('multipart/form-data') > -1) {
+          let data = parseFile(body)
+          resolve(data)
+        }
+        else {
+          let data = JSON.parse(body)
+          resolve(data)
+        }
       })
     }
     catch (error) {
       reject()
     }
   })
+}
+
+function getMatching(string, regex) {
+  // Helper function when using non-matching groups
+  const matches = string.match(regex)
+  if (!matches || matches.length < 2) {
+    return null
+  }
+  return matches[1]
+}
+
+const parseFile = (item) => {
+  let result = {}
+  let name = getMatching(item, /(?:name=")(.+?)(?:")/)
+  let value = getMatching(item, /(?:\r\n\r\n)([\S\s]*)(?:\r\n)/)
+  let filename = getMatching(item, /(?:filename=")(.*?)(?:")/)
+  if (filename && (filename = filename.trim())) {
+    // Add the file information in a files array
+    let file = {}
+    file[name] = value
+    file['filename'] = filename
+    let contentType = getMatching(item, /(?:Content-Type:)(.*?)(?:\r\n)/)
+    if (contentType && (contentType = contentType.trim())) {
+      file['Content-Type'] = contentType
+    }
+    if (!result.files) {
+      result.files = []
+    }
+    result.files.push(file)
+  } else {
+    // Key/Value pair
+    result[name] = value
+  }
+  return result
 }
 
 const returnResponse = (res, response) => {
